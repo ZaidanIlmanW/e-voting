@@ -1,0 +1,71 @@
+public function store(Request $request)
+    {
+        $request->validate([
+            'nama_kandidat' => 'required|string|max:255',
+            'id_setting' => 'required|integer',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Ensure the file is an image
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'nomor_urut' => 'required|integer|unique:kandidat,nomor_urut', // No need for $kandidat here
+        ]);
+
+        // Handle the file upload for the photo if present
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $filename);
+        } else {
+            $filename = null;
+        }
+
+        // Insert data into the database
+        Kandidat::create([
+            'nama_kandidat' => $request->nama_kandidat,
+            'id_setting' => $request->id_setting,
+            'foto' => $filename,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'tempat_lahir' => $request->tempat_lahir,
+            'alamat' => $request->alamat,
+            'nomor_urut' => $request->nomor_urut,
+        ]);
+
+        // Redirect back with success message
+        return redirect()->route('kandidats.index')->with('success', 'Kandidat created successfully.');
+    }
+public function update(Request $request, Kandidat $kandidat)
+    {
+        // Validate incoming request
+        $request->validate([
+            'nama_kandidat' => 'required|string|max:255',
+            'id_setting' => 'required|integer',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'nomor_urut' => 'required|integer|unique:kandidat,nomor_urut,' . $kandidat->id_kandidat . ',id_kandidat', // Unique validation for nomor_urut
+        ]);
+
+        // Handle the file upload for 'foto'
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $filename);
+
+            // Set 'foto' in the data array with the new filename
+            $data = $request->all();
+            $data['foto'] = $filename;
+        } else {
+            // If no new file is uploaded, exclude 'foto' from the update
+            $data = $request->except('foto');
+        }
+
+        // Update the Kandidat record
+        $kandidat->update($data);
+
+        return redirect()->route('kandidats.index')->with('success', 'Kandidat updated successfully.');
+    }
+<td class="p-2 border border-gray-300">
+                        <img src="{{ asset('images/' . $dtKandidat->foto) }}" alt="Foto Kandidat"
+                            class="w-24 h-auto rounded">
+                    </td>
