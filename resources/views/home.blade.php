@@ -1,10 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.user')
+
 
 @section('title', 'Home')
 
 @section('content')
 <div class="container">
-    <h2 class="text-center mb-5">Selamat Datang</h2>
+    <h2 class="text-center mb-5">Selamat Datang di</h2>
 
     <img src="{{ asset('image/UNY.png') }}" alt="" class="img-fluid mx-auto d-block w-25 mb-5">
 

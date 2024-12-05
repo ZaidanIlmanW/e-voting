@@ -1,71 +1,88 @@
-public function store(Request $request)
-    {
-        $request->validate([
-            'nama_kandidat' => 'required|string|max:255',
-            'id_setting' => 'required|integer',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Ensure the file is an image
-            'tanggal_lahir' => 'required|date',
-            'tempat_lahir' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'nomor_urut' => 'required|integer|unique:kandidat,nomor_urut', // No need for $kandidat here
-        ]);
+@extends('layouts.user')
 
-        // Handle the file upload for the photo if present
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename);
-        } else {
-            $filename = null;
-        }
+@section('title', 'Home')
 
-        // Insert data into the database
-        Kandidat::create([
-            'nama_kandidat' => $request->nama_kandidat,
-            'id_setting' => $request->id_setting,
-            'foto' => $filename,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'tempat_lahir' => $request->tempat_lahir,
-            'alamat' => $request->alamat,
-            'nomor_urut' => $request->nomor_urut,
-        ]);
+@section('content')
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Card untuk Tampilan Halaman -->
+    <div class="card shadow-sm border-0 rounded-lg w-50">
+        <!-- Header Card -->
+        <div class="card-header text-center py-3 bg-transparent border-0">
+            <h4 class="fw-bold">SMK NEGERI 1 PURWOKERTO</h4>
+        </div>
 
-        // Redirect back with success message
-        return redirect()->route('kandidats.index')->with('success', 'Kandidat created successfully.');
+        <!-- Body Card -->
+        <div class="card-body text-center">
+            <img src="{{ asset('image/smk1.png') }}" alt="Logo UNY" class="img-fluid w-50 mb-4">
+
+            <!-- Menampilkan Pesan Sukses atau Error -->
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <!-- Input Token -->
+            <form action="{{ route('verifikasi.token') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="token" class="fw-bold">Masukkan Token</label>
+                    <input type="text" class="form-control input-token mt-2 mb-4" name="token" id="token" placeholder="" required>
+                </div>
+                <button type="submit" class="btn btn-dark btn-custom">Masuk</button>
+            </form>
+        </div>
+
+        <!-- Footer Card -->
+        <div class="card-footer text-center py-3 bg-light">
+            <small class="text-muted">© 2024 Zaidan  e-Voting</small>
+        </div>
+    </div>
+</div>
+@endsection
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-public function update(Request $request, Kandidat $kandidat)
-    {
-        // Validate incoming request
-        $request->validate([
-            'nama_kandidat' => 'required|string|max:255',
-            'id_setting' => 'required|integer',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
-            'tanggal_lahir' => 'required|date',
-            'tempat_lahir' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'nomor_urut' => 'required|integer|unique:kandidat,nomor_urut,' . $kandidat->id_kandidat . ',id_kandidat', // Unique validation for nomor_urut
-        ]);
 
-        // Handle the file upload for 'foto'
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename);
-
-            // Set 'foto' in the data array with the new filename
-            $data = $request->all();
-            $data['foto'] = $filename;
-        } else {
-            // If no new file is uploaded, exclude 'foto' from the update
-            $data = $request->except('foto');
-        }
-
-        // Update the Kandidat record
-        $kandidat->update($data);
-
-        return redirect()->route('kandidats.index')->with('success', 'Kandidat updated successfully.');
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-<td class="p-2 border border-gray-300">
-                        <img src="{{ asset('images/' . $dtKandidat->foto) }}" alt="Foto Kandidat"
-                            class="w-24 h-auto rounded">
-                    </td>
+
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+        background-color: #333;
+        transform: translateY(-2px);
+    }
+
+    .btn-custom {
+        width: 80%; /* Mengatur lebar tombol menjadi 80% dari kontainer */
+        max-width: 200px; /* Membatasi lebar maksimum tombol */
+    }
+
+    .input-token {
+        width: 80%; /* Memperkecil lebar input token */
+        max-width: 300px; /* Membatasi lebar maksimum */
+        margin: 0 auto; /* Pusatkan input */
+    }
+
+    .fw-bold {
+        font-family: 'Arial', sans-serif;
+    }
+
+    h2 {
+        letter-spacing: 0.05rem;
+    }
+</style>

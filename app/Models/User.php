@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Controller
 {
     use Notifiable;
 
@@ -16,7 +14,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',    // Tambahkan kolom role
-        'is_aktif', // Tambahkan kolom is_aktif
     ];
 
     protected $hidden = [

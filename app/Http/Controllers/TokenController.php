@@ -30,21 +30,30 @@ class TokenController extends Controller
     {
         $request->validate([
             'id_setting' => 'required|exists:setting,id_setting',
+            'jumlah_token' => 'required|integer|min:1', // Validasi jumlah token
         ]);
-
-        // Generate unique token secara otomatis
-        $token = $this->generateUniqueToken();
-        
-        // Simpan token ke dalam database
-        Token::create([
-            'token' => $token,
-            'id_setting' => $request->id_setting,
-            'is_pakai' => false, // Status awal token belum digunakan
-        ]);
-
-        // Redirect ke halaman daftar token dengan pesan sukses
-        return redirect()->route('token.index')->with('success', 'Token berhasil dibuat: ' . $token);
+    
+        $tokens = []; // Array untuk menyimpan data token
+    
+        for ($i = 0; $i < $request->jumlah_token; $i++) {
+            // Generate token unik
+            $token = $this->generateUniqueToken();
+    
+            $tokens[] = [
+                'token' => $token,
+                'id_setting' => $request->id_setting,
+                'is_pakai' => false, // Default: belum digunakan
+               
+            ];
+        }
+    
+        // Masukkan semua token ke database dalam sekali operasi
+        Token::insert($tokens);
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('token.index')->with('success', $request->jumlah_token . ' token berhasil dibuat.');
     }
+    
 
     public function verifikasiToken(Request $request)
     {
@@ -138,12 +147,7 @@ class TokenController extends Controller
         return false; // Tidak ada karakter terlarang
     }
 
-    public function exportToPDF()
-{
-    $tokens = Token::with('setting')->get(); // Ambil data token
-    $pdf = Pdf::loadView('exports.tokens_pdf', compact('tokens')); // Load view untuk PDF
-    return $pdf->download('daftar_token.pdf'); // Unduh file PDF
-}
+  
 
 public function exportUnusedTokensPdf()
 {
@@ -154,7 +158,14 @@ public function exportUnusedTokensPdf()
     $pdf = PDF::loadView('exports.tokens_pdf', compact('tokens'));
 
     // Return file PDF
-    return $pdf->download('unused_tokens.pdf');
+    return $pdf->download('daftar_tokens.pdf');
+}
+
+
+public function deleteAll()
+{
+    Token::truncate(); // Menghapus semua data token dari tabel
+    return redirect()->route('token.index')->with('success', 'Semua token berhasil dihapus.');
 }
 
 

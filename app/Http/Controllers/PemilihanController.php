@@ -25,43 +25,44 @@ class PemilihanController extends Controller
     }
 
     public function pilih(Request $request)
-{
-    $token = session()->get('token'); // Ambil token dari session
-    $kandidatIds = $request->input('kandidat'); // Ambil kandidat yang dipilih
-
-    if (empty($kandidatIds)) {
-        return redirect()->back()->withErrors(['error' => 'Anda harus memilih setidaknya satu kandidat.']);
-    }
-
-    $setting = Setting::where('is_aktif', 1)->firstOrFail();
-
-    if (count($kandidatIds) < $setting->limit_voting_min || count($kandidatIds) > $setting->limit_voting_max) {
-        return redirect()->back()->withErrors(['error' => 'Jumlah kandidat yang dipilih tidak sesuai dengan batasan.']);
-    }
-
-    $pemilihan = Pemilihan::where('id_setting', $setting->id_setting)->orderBy('tgl', 'desc')->first();
-
-    if (!$pemilihan) {
-        // Tambahkan data default jika diperlukan
-        Pemilihan::create([
-            'tgl' => now(),
-            'id_setting' => $setting->id_setting,
-        ]);
+    {
+        $token = session()->get('token');
+        $kandidatIds = $request->input('kandidat');
     
-        // Setelah menambahkan, ambil ulang data
+        if (empty($kandidatIds)) {
+            return redirect()->back()->withErrors(['error' => 'Anda harus memilih setidaknya satu kandidat.']);
+        }
+    
+        $setting = Setting::where('is_aktif', 1)->firstOrFail();
+    
+        if (count($kandidatIds) < $setting->limit_voting_min || count($kandidatIds) > $setting->limit_voting_max) {
+            return redirect()->back()->withErrors(['error' => 'Jumlah kandidat yang dipilih tidak sesuai dengan batasan.']);
+        }
+    
         $pemilihan = Pemilihan::where('id_setting', $setting->id_setting)->orderBy('tgl', 'desc')->first();
+    
+        if (!$pemilihan) {
+            Pemilihan::create([
+                'tgl' => now(),
+                'id_setting' => $setting->id_setting,
+            ]);
+    
+            $pemilihan = Pemilihan::where('id_setting', $setting->id_setting)->orderBy('tgl', 'desc')->first();
+        }
+    
+        foreach ($kandidatIds as $id_kandidat) {
+            DB::table('pemilihan_detail')->insert([
+                'id_pemilihan' => $pemilihan->id_pemilihan,
+                'id_kandidat' => $id_kandidat,
+            ]);
+        }
+    
+        DB::table('token')->where('token', $token)->update(['is_pakai' => 1]);
+    
+        // Redirect ke halaman terima kasih
+        return redirect()->route('thanks.index');
     }
-
-    foreach ($kandidatIds as $id_kandidat) {
-        DB::table('pemilihan_detail')->insert([
-            'id_pemilihan' => $pemilihan->id_pemilihan,
-            'id_kandidat' => $id_kandidat,
-        ]);
-    }
-
-    DB::table('token')->where('token', $token)->update(['is_pakai' => 1]);
-
-    return redirect()->route('hasil.index')->with('success', 'Pilihan Anda telah disimpan.');
-    }
+    
+    
 
 }

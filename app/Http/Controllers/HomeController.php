@@ -2,22 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Token;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    //   * Create a new controller instance.
-    //  *
-    //  * @return void
-    //  */
-   
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+ 
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function index()
     {
-        return view('home');
+        $isAdmin = $request->query('role') === 'admin';
+
+        if ($isAdmin) {
+            // Render tampilan untuk admin
+            return view('home.admin');
+        }
+
+        // Render tampilan untuk user biasa
+        return view('home.user');
     }
+
+    public function admin()
+    {
+        return view('home.admin'); // Halaman admin
+    }
+
+    public function user()
+    {
+        return view('home.user'); // Halaman user
+    }
+
     
-}
+    }

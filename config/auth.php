@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'web', // Default guard untuk aplikasi Anda
+        'passwords' => 'users', // Default password broker
     ],
 
     /*
@@ -36,11 +36,17 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users', // Untuk pengguna umum (user)
     ],
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins', // Untuk admin
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -60,16 +66,18 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class, // Model untuk pengguna biasa (user)
     ],
+
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class, // Model untuk admin, pastikan model ini ada
+    ],
+],
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +101,14 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' => 'password_reset_tokens',
+            'expire' => 60, // Token berlaku selama 60 menit
+            'throttle' => 60, // Waktu tunggu sebelum meminta token baru
+        ],
+
+        'admins' => [ // Password reset untuk admin
+            'provider' => 'admins',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
@@ -110,6 +125,6 @@ return [
     |
     */
 
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+    'password_timeout' => 10800, // Timeout konfirmasi password (dalam detik, 3 jam)
 
 ];

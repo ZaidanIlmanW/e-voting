@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Setting extends Model 
 {
@@ -32,4 +33,10 @@ class Setting extends Model
     {
         return $this->hasMany(Kandidat::class, 'id_setting', 'id_setting');
     }
+
+    public function isPemilihanClosed()
+    {
+        return Carbon::now()->greaterThan($this->tanggal_akhir);
+    }
+
 }

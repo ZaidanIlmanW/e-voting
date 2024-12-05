@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Daftar Kandidat')
 
@@ -8,8 +8,6 @@
         <div class="col-md-12">
             <h1 class="text-center mb-4">Daftar Kandidat</h1>
             
-        
-
             <a href="{{ route('kandidat.create') }}" class="btn btn-primary mb-3">Tambah Kandidat</a>
 
             <!-- cari -->
@@ -54,11 +52,16 @@
                         <td>{{ $kandidat->alamat }}</td>
                         <td>{{ $kandidat->nourut }}</td>
                         <td>
-                            <a href="{{ route('kandidat.edit', $kandidat->id_kandidat) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <!-- Ganti tombol dengan icon -->
+                            <a href="{{ route('kandidat.edit', $kandidat->id_kandidat) }}" class="btn btn-warning btn-sm me-2">
+                                <i class="fas fa-edit"></i> <!-- Icon Edit -->
+                            </a>
                             <form action="{{ route('kandidat.destroy', $kandidat->id_kandidat) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kandidat ini?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> <!-- Icon Hapus -->
+                                </button>
                             </form>
                         </td>
                     </tr>
