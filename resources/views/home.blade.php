@@ -1,13 +1,12 @@
 @extends('layouts.user')
 
-
 @section('title', 'Home')
 
 @section('content')
-<div class="container">
-    <h2 class="text-center mb-5">Selamat Datang di</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Halo</h2>
 
-    <img src="{{ asset('image/UNY.png') }}" alt="" class="img-fluid mx-auto d-block w-25 mb-5">
+    <img src="{{ asset('image/smk1.png') }}" alt="" class="img-fluid mx-auto d-block w-25 mb-5 gambar-geser">
 
     <!-- Menampilkan Pesan Sukses atau Error -->
     @if(session('success'))
@@ -23,16 +22,16 @@
     @endif
 
     <!-- Input Token -->
-    <form action="{{ route('verifikasi.token') }}" method="POST">
+    <form action="{{ route('verifikasi.token') }}" method="POST" class="form-geser">
         @csrf
         <div class="form-group">
             <div class="col-md-6 mx-auto text-center">
                 <label for="token">Masukkan Token</label>
-                <input type="text" class="form-control" name="token" id="token" required>
+                <input type="text" class="form-control input-token" name="token" id="token" required> <!-- Tambahkan kelas input-token -->
             </div>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary mt-3 text">Masuk</button>
+            <button type="submit" class="btn btn-danger mt-3 text">Masuk</button>
         </div>
     </form>
 </div>

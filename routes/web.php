@@ -30,11 +30,15 @@ Route::post('/admin/register', [AdminController::class, 'register'])->name('admi
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
 
+
+
 // Route untuk dashboard admin dengan middleware auth
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
+    
 
     Route::resource('setting', SettingController::class);
     Route::resource('kandidat', KandidatController::class);
@@ -56,13 +60,15 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/generate-token', [TokenController::class, 'showGenerateForm'])->name('token.generate');
     Route::post('/generate-token', [TokenController::class, 'generateToken'])->name('token.generate.store');
 
-
+    Route::resource('pemilihan', PemilihanController::class);
+    Route::post('/pemilihan/pilih', [PemilihanController::class, 'pilih'])->name('pemilihan.pilih'); // Pilih kandidat
 // Route untuk Pemilihan
-Route::resource('pemilihan', PemilihanController::class);
-Route::post('/pemilihan/pilih', [PemilihanController::class, 'pilih'])->name('pemilihan.pilih'); // Pilih kandidat
+
 });
 
-
+Route::resource('pemilihan', PemilihanController::class);
+Route::post('/pemilihan/pilih', [PemilihanController::class, 'pilih'])->name('pemilihan.pilih'); // Pilih kandidat
+Route::resource('pemilihan', PemilihanController::class);
     
     
    

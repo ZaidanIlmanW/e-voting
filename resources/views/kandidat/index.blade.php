@@ -8,12 +8,12 @@
         <div class="col-md-12">
             <h1 class="text-center mb-4">Daftar Kandidat</h1>
             
-            <a href="{{ route('kandidat.create') }}" class="btn btn-primary mb-3">Tambah Kandidat</a>
+            <a href="{{ route('kandidat.create') }}" class="btn btn-danger mb-3">Tambah Kandidat</a>
 
             <!-- cari -->
             <form action="{{ route('kandidat.index') }}" method="GET" class="d-flex mb-3 col-md-4">
                 <input type="text" name="search" class="form-control me-2" placeholder="Cari Kandidat..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Cari</button>
+                <button type="submit" class="btn btn-danger">Cari</button>
             </form>
 
             <!-- Tampilkan Pesan Sukses Jika Ada -->
@@ -25,7 +25,7 @@
 
             <!-- Tabel Daftar Kandidat -->
             <table class="table table-bordered table-hover">
-                <thead class="table-primary text-center">
+                <thead class="table-danger text-center">
                     <tr>
                         <th>Foto</th>
                         <th>Nama Kandidat</th>

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-5 display-5 fw-bold" style="color: #c30010;">Hasil Pemilihan</h1>
+    <h1 class="text-center my-5 display-5 fw-bold" style="color: #c30010;">Results.</h1>
 
     <!-- Informasi -->
     <p class="text-center text-muted mb-4">Berikut adalah hasil akhir dari pemilihan kandidat berdasarkan total suara yang masuk.</p>
@@ -26,7 +26,7 @@
                         <!-- Nama Kandidat -->
                         <p class="card-text text-muted mb-2">{{ $item->nama_kandidat }}</p>
                         <!-- Total Suara -->
-                        <span class="badge bg-primary fs-6 px-3 py-2">
+                        <span class="badge bg-danger fs-6 px-3 py-2">
                             <i class="fas fa-vote-yea me-1"></i>{{ $item->total_suara }} Suara
                         </span>
                     </div>

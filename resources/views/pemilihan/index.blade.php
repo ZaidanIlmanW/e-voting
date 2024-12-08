@@ -1,10 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('title', 'Pemilihan Kandidat')
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-5 display-5 fw-bold" style="color: #c30010;">Pemilihan Kandidat</h1>
+    <h1 class="text-center my-5 display-5 fw-bold" style="color: #c30010;">Silahkan Memilih Kandidat</h1>
 
     <!-- Pesan Error -->
     @if($errors->any())

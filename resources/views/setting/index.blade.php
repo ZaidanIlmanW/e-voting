@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer">
                     <!-- Tombol dengan efek hover -->
                     <a href="{{ route('setting.edit', $setting->id_setting) }}" class="btn btn-warning btn-sm px-4 py-2 rounded-pill shadow-sm hover-zoom">
                         Edit Setting

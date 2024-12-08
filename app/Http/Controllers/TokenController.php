@@ -13,8 +13,8 @@ class TokenController extends Controller
     public function index()
     {
         $token = Token::orderBySetting()->get();
-        $setting = Setting::orderBy('judul_pemilihan', 'asc')->get();
-    
+        $setting = Setting::first(); // Ambil satu-satunya setting, karena hanya ada satu
+
         // Kirim data token dan setting ke view
         return view('token.index', compact('token', 'setting'));
     }
@@ -28,9 +28,11 @@ class TokenController extends Controller
 
     public function store(Request $request)
     {
+        $defaultSetting = Setting::first();
+
+        // Validasi jumlah token
         $request->validate([
-            'id_setting' => 'required|exists:setting,id_setting',
-            'jumlah_token' => 'required|integer|min:1', // Validasi jumlah token
+            'jumlah_token' => 'required|integer|min:1', // Hanya validasi jumlah
         ]);
     
         $tokens = []; // Array untuk menyimpan data token
@@ -41,9 +43,8 @@ class TokenController extends Controller
     
             $tokens[] = [
                 'token' => $token,
-                'id_setting' => $request->id_setting,
+                'id_setting' => $defaultSetting->id_setting, // Gunakan ID default setting
                 'is_pakai' => false, // Default: belum digunakan
-               
             ];
         }
     
