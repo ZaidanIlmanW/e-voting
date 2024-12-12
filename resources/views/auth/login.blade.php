@@ -80,6 +80,23 @@
         button[type="submit"]:hover {
             background-color: #6a11cb;
         }
+
+        .login-container .link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-container .link a {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-container .link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +113,9 @@
                 <input type="password" name="password" id="password" required>
             </div>
             <button type="submit">Login</button>
+            <div class="link">
+                Belum punya akun? <a href="{{ route('admin.register') }}">Daftar</a>
+        </div>
         </form>
     </div>
 </body>

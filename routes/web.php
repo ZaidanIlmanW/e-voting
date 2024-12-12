@@ -48,7 +48,7 @@ Route::middleware(['auth:admin'])->group(function () {
      Route::get('/token', [TokenController::class, 'index'])->name('token.index');
     Route::get('/token/create', [TokenController::class, 'create'])->name('token.create');
     Route::post('/token', [TokenController::class, 'store'])->name('token.store');
-    Route::post('/verifikasi-token', [TokenController::class, 'verifikasiToken'])->name('verifikasi.token');
+   
     Route::delete('/token/delete-all', [TokenController::class, 'deleteAll'])->name('token.delete.all');
     Route::delete('/token/{id}', [TokenController::class, 'destroy'])->name('token.destroy');
 
@@ -69,9 +69,11 @@ Route::middleware(['auth:admin'])->group(function () {
 Route::resource('pemilihan', PemilihanController::class);
 Route::post('/pemilihan/pilih', [PemilihanController::class, 'pilih'])->name('pemilihan.pilih'); // Pilih kandidat
 Route::resource('pemilihan', PemilihanController::class);
+
     
-    
-   
+Route::post('/verifikasi-token', [TokenController::class, 'verifikasiToken'])->name('verifikasi.token');
+
+
     
     // Rute Token
    

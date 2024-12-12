@@ -5,7 +5,7 @@
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="dashboard-container text-center">
-        <h2 class="text-center mb-5">ADMIN</h2>
+        <!-- <h2 class="text-center mb-5">ADMIN</h2> -->
 
         <!-- Gambar Admin -->
         <div class="image-container mb-4">

@@ -34,9 +34,10 @@ class Setting extends Model
         return $this->hasMany(Kandidat::class, 'id_setting', 'id_setting');
     }
 
-    public function isPemilihanClosed()
+    public function isPemilihanAktif()
     {
-        return Carbon::now()->greaterThan($this->tanggal_akhir);
+        $now = Carbon::now();
+        return $this->is_aktif && $now->between(Carbon::parse($this->tgl_awal), Carbon::parse($this->tgl_akhir));
     }
 
 }

@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <!-- Menggunakan padding dan margin untuk membuat tampilan lebih rapi -->
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Nama Setting:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong hidden>Nama Setting:</strong></div>
                         <div class="col-8">{{ $setting->nama_setting }}</div>
                     </div>
                     <div class="row mb-3">

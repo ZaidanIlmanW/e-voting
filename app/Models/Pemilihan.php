@@ -20,5 +20,14 @@ class Pemilihan extends Model
         'id_setting',  // Foreign key ke tabel setting
     ];
 
+    public function detail()
+    {
+        return $this->hasMany(PemilihanDetail::class, 'id_pemilihan', 'id_pemilihan');
+    }
+
+    public function setting()
+    {
+        return $this->belongsTo(Setting::class, 'id_setting', 'id_setting');
+    }
     
 }

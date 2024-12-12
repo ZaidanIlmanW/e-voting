@@ -30,28 +30,29 @@ class KandidatController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nama_kandidat' => 'required|string|max:200',
-        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'tanggal_lahir' => 'required|date',
-        'tempat_lahir' => 'required|string|max:200',
-        'alamat' => 'nullable|string|max:200',
-        'nourut' => 'required|integer',
-    ]);
-
-    $data = $request->except(['foto']); // Exclude 'foto' initially
-
-    // Handle file upload
-    if ($request->hasFile('foto')) {
-        $filename = $request->file('foto')->store('images', 'public');
-        $data['foto'] = $filename; // Add 'foto' path to the data array
+    {
+        $request->validate([
+            'nama_kandidat' => 'required|string|max:200',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string|max:200',
+            'alamat' => 'nullable|string|max:200',
+            'nourut' => 'required|integer|unique:kandidat,nourut',
+        ]);
+    
+        $data = $request->except(['foto']);
+    
+        if ($request->hasFile('foto')) {
+            $filename = $request->file('foto')->store('images', 'public');
+            $data['foto'] = $filename;
+        }
+    
+        Kandidat::create($data);
+    
+        return redirect()->route('kandidat.index')->with('success', 'Kandidat berhasil ditambahkan.');
     }
-
-    Kandidat::create($data);
-
-    return redirect()->route('kandidat.index')->with('success', 'Kandidat berhasil ditambahkan.');
-}
+    
+    
 
 
     public function edit($id)
@@ -64,19 +65,18 @@ class KandidatController extends Controller
     public function update(Request $request, $id)
     {
         $kandidat = Kandidat::findOrFail($id);
-
+    
         $request->validate([
             'nama_kandidat' => 'required|string|max:200',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tanggal_lahir' => 'required|date',
             'tempat_lahir' => 'required|string|max:200',
             'alamat' => 'nullable|string|max:200',
-            'nourut' => 'required|integer',
-            'id_setting' => 'required|integer',
+            'nourut' => 'required|integer|unique:kandidat,nourut,' . $kandidat->id_kandidat . ',id_kandidat', // Ubah id menjadi id_kandidat
         ]);
-
+    
         $data = $request->all();
-
+    
         // Handle the new photo upload if provided
         if ($request->hasFile('foto')) {
             if ($kandidat->foto) {
@@ -88,23 +88,30 @@ class KandidatController extends Controller
         } else {
             $data = $request->except('foto');
         }
-
+    
         $kandidat->update($data);
-
+    
         return redirect()->route('kandidat.index')->with('success', 'Kandidat berhasil diubah.');
     }
+    
+
 
     public function destroy($id)
     {
+        // Cari kandidat berdasarkan ID
         $kandidat = Kandidat::findOrFail($id);
-
-        // Delete the photo from storage if it exists
-        if ($kandidat->foto) {
+    
+        // Periksa apakah kandidat memiliki file foto
+        if ($kandidat->foto && Storage::disk('public')->exists($kandidat->foto)) {
+            // Hapus foto dari storage
             Storage::disk('public')->delete($kandidat->foto);
         }
-
+    
+        // Hapus data kandidat dari database
         $kandidat->delete();
-
+    
+        // Redirect ke halaman kandidat dengan pesan sukses
         return redirect()->route('kandidat.index')->with('success', 'Kandidat berhasil dihapus.');
     }
+    
 }

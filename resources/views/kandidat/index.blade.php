@@ -6,7 +6,8 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-md-12">
-            <h1 class="text-center mb-4">Daftar Kandidat</h1>
+        <h1 class="text-center my-5 display-5 fw-bold" style="color: #c30010;">Daftar Kandidat </h1>
+
             
             <a href="{{ route('kandidat.create') }}" class="btn btn-danger mb-3">Tambah Kandidat</a>
 
@@ -23,9 +24,22 @@
                 </div>
             @endif
 
+            <!-- Tampilkan Pesan Error Jika Ada -->
+            @if ($errors->has('nourut'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('nourut') }}
+                </div>
+            @endif
+
             <!-- Tabel Daftar Kandidat -->
+            @php
+                $duplicates = $kandidat->groupBy('nourut')->filter(function ($group) {
+                    return $group->count() > 1;
+                })->keys()->toArray();
+            @endphp
+
             <table class="table table-bordered table-hover">
-                <thead class="table-danger text-center">
+                <thead class="table text-center">
                     <tr>
                         <th>Foto</th>
                         <th>Nama Kandidat</th>
@@ -39,18 +53,20 @@
                 <tbody>
                     @foreach ($kandidat as $kandidat)
                     <tr class="text-center align-middle">
-                    <td>
-                        @if($kandidat->foto)
-                            <img src="{{ Storage::url($kandidat->foto) }}" width="150" height="170" style="object-fit: cover;" alt="Foto Kandidat">
-                        @else
-                            Tidak Ada Foto
-                        @endif
-                    </td>
+                        <td>
+                            @if($kandidat->foto)
+                                <img src="{{ Storage::url($kandidat->foto) }}" width="150" height="170" style="object-fit: cover;" alt="Foto Kandidat">
+                            @else
+                                Tidak Ada Foto
+                            @endif
+                        </td>
                         <td>{{ $kandidat->nama_kandidat }}</td>
                         <td>{{ $kandidat->tanggal_lahir }}</td>
                         <td>{{ $kandidat->tempat_lahir }}</td>
                         <td>{{ $kandidat->alamat }}</td>
-                        <td>{{ $kandidat->nourut }}</td>
+                        <td @if(in_array($kandidat->nourut, $duplicates)) class="bg-warning" @endif>
+                            {{ $kandidat->nourut }}
+                        </td>
                         <td>
                             <!-- Ganti tombol dengan icon -->
                             <a href="{{ route('kandidat.edit', $kandidat->id_kandidat) }}" class="btn btn-warning btn-sm me-2">

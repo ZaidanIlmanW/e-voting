@@ -108,5 +108,7 @@
             Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
         </div>
     </div>
+
+    
 </body>
 </html>

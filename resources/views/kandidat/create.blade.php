@@ -56,7 +56,7 @@
                         <div class="mb-3">
     <label for="id_setting" class="form-label">Setting</label>
     <select name="id_setting" class="form-control form-control-lg @error('id_setting') is-invalid @enderror">
-        <option value="">Pilih Setting</option>
+        <option hidden>Pilih Setting</option>
         @foreach($setting as $setting)
             <option value="{{ $setting->id_setting }}" {{ old('id_setting') == $setting->id_setting ? 'selected' : '' }}>
                 {{ $setting->nama_setting }}
