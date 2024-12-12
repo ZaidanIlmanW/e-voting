@@ -55,10 +55,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="is_aktif">Aktif</label>
+                            <label for="is_aktif">is_aktif</label>
                             <select name="is_aktif" class="form-control" required>
                                 <option value="1" {{ $setting->is_aktif == 1 ? 'selected' : '' }}>Aktif</option>
-                                <option value="0" {{ $setting->is_aktif == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+
                             </select>
                         </div>
 

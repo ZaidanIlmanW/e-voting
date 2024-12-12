@@ -15,31 +15,31 @@
                 <div class="card-body">
                     <!-- Menggunakan padding dan margin untuk membuat tampilan lebih rapi -->
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong hidden>Nama Setting:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Nama Setting :</strong></div>
                         <div class="col-8">{{ $setting->nama_setting }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Judul Pemilihan:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Judul Pemilihan :</strong></div>
                         <div class="col-8">{{ $setting->judul_pemilihan }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Limit Voting Min:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Limit Voting Min :</strong></div>
                         <div class="col-8">{{ $setting->limit_voting_min }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Limit Voting Max:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Limit Voting Max :</strong></div>
                         <div class="col-8">{{ $setting->limit_voting_max }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Tanggal Awal:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Tanggal Awal :</strong></div>
                         <div class="col-8">{{ $setting->tgl_awal }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Tanggal Akhir:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Tanggal Akhir :</strong></div>
                         <div class="col-8">{{ $setting->tgl_akhir }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-4 font-weight-bold"><strong>Status:</strong></div>
+                        <div class="col-4 font-weight-bold"><strong>Status :</strong></div>
                         <div class="col-8">
                             <span class="badge bg-{{ $setting->is_aktif ? 'success' : 'secondary' }} text-white">
                                 {{ $setting->is_aktif ? 'Aktif' : 'Tidak Aktif' }}

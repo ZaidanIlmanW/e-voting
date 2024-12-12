@@ -50,7 +50,6 @@
                             <label for="is_aktif">Aktif</label>
                             <select name="is_aktif" class="form-control" required>
                                 <option value="1">Aktif</option>
-                                <option value="0">Tidak Aktif</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3">Simpan</button>
