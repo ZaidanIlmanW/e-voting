@@ -18,28 +18,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $isAdmin = $request->query('role') === 'admin';
+    public function index(){
 
-        if ($isAdmin) {
-            // Render tampilan untuk admin
-            return view('home.admin');
-        }
-
-        // Render tampilan untuk user biasa
-        return view('home.user');
+        return view('home');
     }
-
-    public function admin()
-    {
-        return view('home.admin'); // Halaman admin
-    }
-
-    public function user()
-    {
-        return view('home.user'); // Halaman user
-    }
+   
+    
 
     
     }
