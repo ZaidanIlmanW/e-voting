@@ -4,8 +4,10 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="text-center mb-5">Halo</h2>
-
+    @foreach($setting as $setting)
+    <h2 class="text-center mb-5">{{$setting->judul_pemilihan}}</h2>
+    @endforeach
+    
     <img src="{{ asset('image/smk1.png') }}" alt="" class="img-fluid mx-auto d-block w-25 mb-5 gambar-geser">
 
     <!-- Menampilkan Pesan Sukses atau Error -->

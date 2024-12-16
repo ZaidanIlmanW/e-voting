@@ -23,15 +23,18 @@ class AdminController extends Controller
 
     // Proses login
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->intended('/admin/dashboard');
-        }
-
-        return redirect()->route('admin.login')->withErrors('Invalid credentials');
+    if (Auth::guard('admin')->attempt($credentials)) {
+        $request->session()->flash('success', 'Login berhasil! Selamat datang di Dashboard.');
+        return redirect()->intended('/admin/dashboard');
     }
+
+    $request->session()->flash('error', 'Login gagal! Email atau password salah.');
+    return redirect()->route('login');
+}
+
 
     // Menampilkan form registrasi admin
     public function showRegisterForm()
@@ -78,9 +81,5 @@ class AdminController extends Controller
         return redirect('login');
     }
 
-    public function profile()
-{
-    return view('admin.profile');
-}
 
 }

@@ -94,7 +94,23 @@
 </head>
 <body>
     <div class="register-container">
-        <h1>Daftar Akun </h1>
+        <h1>Daftar Akun</h1>
+        
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div style="color: green; margin-bottom: 10px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Notifikasi Error -->
+        @if(session('error'))
+            <div style="color: red; margin-bottom: 10px; text-align: center;">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- Form Registrasi -->
         <form action="{{ route('admin.register.submit') }}" method="POST">
             @csrf
             <input type="text" name="name" placeholder="Nama" required>
@@ -108,7 +124,6 @@
             Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
         </div>
     </div>
-
-    
 </body>
+
 </html>

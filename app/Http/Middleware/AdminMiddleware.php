@@ -18,7 +18,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('auth.admin.login')->with('error', 'Anda harus login sebagai admin.');
+            return redirect()->route('login')->with('error', 'Anda harus login sebagai admin.');
         }
 
         return $next($request);

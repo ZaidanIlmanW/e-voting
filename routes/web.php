@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ThanksController;
+use App\Models\Setting;
 
 
 Route::get('/', function () {
@@ -17,7 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return view('home');
+
+    $setting = Setting::all();
+    return view('home', compact('setting'));
 });
 
 
@@ -79,10 +82,6 @@ Route::post('/verifikasi-token', [TokenController::class, 'verifikasiToken'])->n
    
 
 Auth::routes();
-
-Route::get('/home/admin', [HomeController::class, 'admin'])->name('home.admin');
-Route::get('/home/user', [HomeController::class, 'user'])->name('home.user');
-
 
 
 Route::get('/terimakasih', [ThanksController::class, 'index'])->name('thanks.index');

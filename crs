@@ -1,4 +1,4 @@
-@extends('layouts.app')
+<!-- @extends('layouts.app')
 
 @section('title', 'Generate Token')
 
@@ -26,4 +26,4 @@
         <button type="submit" class="btn btn-primary">Generate Token</button>
     </form>
 </div>
-@endsection
+@endsection -->

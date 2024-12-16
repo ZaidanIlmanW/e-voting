@@ -24,22 +24,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/hasil') }}">Hasil Pemilihan</a>
                 </li>
-                <!-- Dropdown untuk User Profile dan Logout -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                       
-                        <li>
-                            <form method="POST" action="{{ route('admin.logout') }}">
-                                @csrf
-                                <button class="dropdown-item text-danger" type="submit">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
+                <!-- Tombol Logout langsung terlihat -->
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
+                        @csrf
+                        <button class="btn btn-link nav-link text-danger" type="submit" style="text-decoration: none;">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

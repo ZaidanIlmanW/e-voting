@@ -11,7 +11,7 @@ class AuthController extends Controller
     // Menampilkan form login
     public function showLoginForm()
     {
-        return view('admin.login');
+        return view('login');
     }
 
     // Proses login
@@ -37,40 +37,22 @@ class AuthController extends Controller
     }
 
     // Proses registrasi
-    public function register(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
-
-        // Buat user baru dengan role admin
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'is_admin' => true, // Admin
-        ]);
-
-        Auth::login($user);
-
-        return redirect()->route('admin.dashboard');
-    }
+    
 
     // Logout
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
     protected function redirectTo($request)
 {
     if (! $request->expectsJson()) {
         if ($request->is('admin/*')) {
-            return route('auth.admin.login'); // Redirect ke login admin
+            return route('login'); // Redirect ke login admin
         }
-        return route('admin.login'); // Redirect ke login default
+        return route('login'); // Redirect ke login default
     }
 }
 

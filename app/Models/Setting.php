@@ -40,4 +40,8 @@ class Setting extends Model
         return $this->is_aktif && $now->between(Carbon::parse($this->tgl_awal), Carbon::parse($this->tgl_akhir));
     }
 
+    
+    
+    
+
 }
